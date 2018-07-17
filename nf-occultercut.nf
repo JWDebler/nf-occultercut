@@ -12,14 +12,14 @@ params.input = "${params.workdir}/input/*.fasta"
 //Reference genome fasta file
 params.reference = "${params.workdir}/reference/*.fasta"
 
-params.outdir = "${params.workdir}/output"
+params.outdir = "${params.workdir}/output/occultercut"
 //+++++++++++++++++++++++++++++++++++++++++++++++
 
 //if you are working in a folder structure that has a separate
 //folder for a reference genome leave everything as it is
 input = Channel
 .fromPath(params.input)
-.map{[it.getParent(), it]}
+.map{ file -> tuple(file.simpleName, file)}
 .set{ genomes }
 
 //if you just want to compare a bunch of sequences comment
@@ -29,6 +29,12 @@ sequences = Channel
 .fromPath(params.reference)
 .map{[it.getBaseName(), it]}
 .concat(genomes)
+
+log.info "====================================================================="
+log.info "GC content comparison with OcculterCut"
+log.info "Output  : ${params.outdir}"
+log.info "====================================================================="
+
 
 process OcculterCut {
   tag { id }
@@ -74,3 +80,10 @@ list.files(".", pattern="input.*.txt") %>%
 ggsave("gc_composition.svg", plot=plot)
   """
 }  
+
+workflow.onComplete {
+    log.info "========================================================"
+    log.info "Pipeline completed at: $workflow.complete"
+    log.info "Execution status: ${ workflow.success ? 'OK' : 'Failed' }"
+    log.info "========================================================"
+}
