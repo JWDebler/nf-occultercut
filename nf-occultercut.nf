@@ -69,16 +69,16 @@ library(dplyr)
 
 Sys.setenv("DISPLAY"=":0.0")
 list.files(".", pattern="input.*.txt") %>%
-  lapply(function(filename) {read.table(filename, col.names=c("gcperc", "genomeperc", "strain"))}) %>%
-  do.call(what=rbind) %>%
-  ggplot(aes(x=gcperc, y=genomeperc * 100)) +
-  geom_line() +
-  facet_grid(strain ~ ., scale="free") +
-  theme_minimal() +
-  xlab("GC (%)") +
-  ylab("Genome representation (%)") -> plot
+lapply(function(filename) {read.table(filename, col.names=c("gcperc", "genomeperc", "strain"))}) %>%
+do.call(what=rbind) %>%
+ggplot(aes(x=gcperc, y=genomeperc * 100)) +
+geom_line() +
+facet_grid(strain ~ ., scale="free") +
+theme_minimal() +
+xlab("GC (%)") +
+ylab("Genome representation (%)") -> plot
 ggsave("gc_composition.svg", plot=plot)
-  """
+"""
 }  
 
 workflow.onComplete {
