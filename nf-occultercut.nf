@@ -4,7 +4,7 @@
 //and plots it
 
 //+++++++++++++++++ SETUP++++++++++++++++++++++++
-params.workdir = "/home/johannes/rdrive/PPG_SEQ_DATA-LICHTJ-SE00182/johannes/notebook/bcinerea_test"
+params.workdir = "/home/johannes/rdrive/PPG_SEQ_DATA-LICHTJ-SE00182/johannes/notebook/2018-05-14-Botrytis_github"
 
 //Folder containing fasta files of genomes
 params.input = "${params.workdir}/input/*.fasta"
